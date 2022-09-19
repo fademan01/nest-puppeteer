@@ -1,0 +1,8 @@
+ignore:
+  - '**/__tests__/**' # ignore folders and all its contents
+  - '**/*.spec.ts'
+
+coverage:
+  parsers:
+    javascript:
+      enable_partials: yes
