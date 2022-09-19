@@ -30,7 +30,6 @@ describe('AppController (e2e)', () => {
       .post('/crawler')
       .send({ url: `http://localhost:${app.getHttpServer().address().port}/` })
       .expect(201);
-      console.log(body);
     expect(body).toMatchInlineSnapshot(`
       {
         "content": "<html><head></head><body>Hello World!</body></html>",

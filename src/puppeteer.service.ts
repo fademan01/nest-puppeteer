@@ -1,4 +1,3 @@
-import chalk from 'chalk';
 import {
     Injectable
   } from '@nestjs/common';
@@ -12,15 +11,13 @@ public browser : Browser | undefined;
     ready: Promise<this>;
     constructor(launchOptions: PuppeteerLaunchOptions, debugOptions: DebugOptions) {
         let createBrowser = async () => {
-            console.log(debugOptions);
             try {
                 this.browser = debugOptions.debugMode? 
                    await connect({ 
                   browserURL:debugOptions.browserURL,
                   defaultViewport: null
                 }): await launch(launchOptions);
-                // console.log(launchOptions);
-         console.log(this.browser);
+                // the isssue happen with the connect function only
             this.browser.on("disconnected", () => {
                 if (this.browser?.process() != null) this.browser?.process()?.kill('SIGINT');
                 createBrowser();
@@ -32,11 +29,6 @@ public browser : Browser | undefined;
             
         }
         this.ready =  (async () => {
-
-            console.log(chalk.green('Setup Puppeteer abc'))
-            // if (!fs.existsSync(DIR)) {
-            //     fs.mkdirSync(DIR);
-            //   }
             await createBrowser();
 
             return this;
