@@ -44,8 +44,8 @@ export class PuppeteerCoreModule
 
   static forRoot(
     launchOptions: LaunchOptions = DEFAULT_CHROME_LAUNCH_OPTIONS,
-    instanceName: string = DEFAULT_PUPPETEER_INSTANCE_NAME,
     debugOptions: DebugOptions = DEFAULT_DEBUG_OPTIONS,
+    instanceName: string = DEFAULT_PUPPETEER_INSTANCE_NAME    
   ): DynamicModule {
     const instanceNameProvider = {
       provide: PUPPETEER_INSTANCE_NAME,

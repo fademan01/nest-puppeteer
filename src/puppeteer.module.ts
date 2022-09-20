@@ -20,13 +20,14 @@ export class PuppeteerModule {
    */
   static forRoot(
     options?: PuppeteerModuleOptions['launchOptions'] & { isGlobal?: boolean },
+    debugOptions?: DebugOptions,
     instanceName?: string,
-    debugOptions?: DebugOptions
+  
   ): DynamicModule {
     return {
       module: PuppeteerModule,
       global: options?.isGlobal,
-      imports: [PuppeteerCoreModule.forRoot(options, instanceName, debugOptions)],
+      imports: [PuppeteerCoreModule.forRoot(options, debugOptions, instanceName)],
     };
   }
 
