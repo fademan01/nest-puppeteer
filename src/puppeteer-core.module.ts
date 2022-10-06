@@ -27,6 +27,7 @@ import {
   getBrowserToken,
   getContextToken,
   getPageToken,
+  getSecondPageToken
 } from './puppeteer.util';
 import { puppeteerService } from './puppeteer.service';
 
@@ -62,7 +63,7 @@ export class PuppeteerCoreModule
     const contextProvider = {
       provide: getContextToken(instanceName),
       async useFactory(browser: Browser) {
-        return browser.createIncognitoBrowserContext();
+        return  browser.defaultBrowserContext();
       },
       inject: [getBrowserToken(instanceName)],
     };
@@ -70,10 +71,25 @@ export class PuppeteerCoreModule
     const pageProvider = {
       provide: getPageToken(instanceName),
       async useFactory(context: BrowserContext) {
-        return await context.newPage();
+        return (await context.pages())[0];
       },
       inject: [getContextToken(instanceName)],
     };
+
+   
+    const secondPageProvider = {
+      provide: getSecondPageToken(instanceName),
+      async useFactory(context: BrowserContext) {
+        while ((await context.pages()).length <2) {
+          await context.newPage();
+        
+        }
+        return (await context.pages())[1];
+      },
+      inject: [getContextToken(instanceName)],
+    };
+    
+   
 
     return {
       module: PuppeteerCoreModule,
@@ -81,9 +97,10 @@ export class PuppeteerCoreModule
         instanceNameProvider,
         browserProvider,
         contextProvider,
-        pageProvider,
+        pageProvider,        
+        secondPageProvider
       ],
-      exports: [browserProvider, contextProvider, pageProvider],
+      exports: [browserProvider, contextProvider, pageProvider,  secondPageProvider],
     };
   }
 
@@ -110,7 +127,7 @@ export class PuppeteerCoreModule
     const contextProvider = {
       provide: getContextToken(puppeteerInstanceName),
       async useFactory(browser: Browser) {
-        return await browser.createIncognitoBrowserContext();
+        return browser.defaultBrowserContext();
       },
       inject: [
         PUPPETEER_MODULE_OPTIONS,
@@ -121,14 +138,29 @@ export class PuppeteerCoreModule
     const pageProvider = {
       provide: getPageToken(puppeteerInstanceName),
       async useFactory(context: BrowserContext) {
-        return await context.newPage();
+        return (await context.pages())[0];
       },
       inject: [
         PUPPETEER_MODULE_OPTIONS,
         getContextToken(puppeteerInstanceName),
       ],
     };
-
+   
+    const secondPageProvider = {
+      provide: getSecondPageToken(puppeteerInstanceName),
+      async useFactory(context: BrowserContext) {
+        let pageLength = (await context.pages()).length;
+        while (pageLength <2) {
+          await context.newPage();
+          pageLength++;
+        }
+        return (await context.pages())[1];
+      },
+      inject: [
+        PUPPETEER_MODULE_OPTIONS,
+        getContextToken(puppeteerInstanceName),
+      ],
+    };
     const asyncProviders = this.createAsyncProviders(options);
 
     return {
@@ -139,9 +171,10 @@ export class PuppeteerCoreModule
         browserProvider,
         contextProvider,
         pageProvider,
+        secondPageProvider,
         instanceNameProvider,
       ],
-      exports: [browserProvider, contextProvider, pageProvider],
+      exports: [browserProvider, contextProvider, pageProvider, secondPageProvider],
     };
   }
 
@@ -149,8 +182,11 @@ export class PuppeteerCoreModule
     const browser: Browser = this.moduleRef.get(
       getBrowserToken(this.instanceName),
     );
+    puppeteerService.moduleDestroyedStatus = true;
 
-    if (browser?.isConnected()) await browser.close();
+    if (browser?.isConnected()&& puppeteerService.debugMode) browser.disconnect();
+    else await browser.close();
+
   }
 
   private static createAsyncProviders(

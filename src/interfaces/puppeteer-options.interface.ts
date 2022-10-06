@@ -14,7 +14,7 @@ export interface PuppeteerModuleOptions {
 
 export interface DebugOptions {
   debugMode?: Boolean;
-  browserURL?: string;
+  browserWSEndpoint: string;
 }
 
 export interface PuppeteerOptionsFactory {

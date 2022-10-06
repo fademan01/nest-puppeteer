@@ -9,7 +9,7 @@ import { CrawlerController } from './crawler.controller';
 import { CrawlerService } from './crawler.service';
 
 @Module({
-  imports: [PuppeteerModule.forRoot({ headless: false, isGlobal: true },{debugMode: true, browserURL:'http://127.0.0.1:9222'}), CrawlerModule],
+  imports: [PuppeteerModule.forRoot({ headless: false, isGlobal: true },{debugMode: false, browserWSEndpoint:'ws://127.0.0.1:9222/devtools/browser/103905a7-e0d4-4183-b0fa-7927f74aa8a0'}), CrawlerModule],
   controllers: [AppController, CrawlerController],
   providers: [AppService, CrawlerService],
 })

@@ -29,7 +29,7 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "search.exclude": {
-    // "**/node_modules": true,
+    "**/node_modules": true,
     "**/coverage": true,
     "**/dist": true
   },
@@ -47,7 +47,7 @@
   "files.watcherExclude": {
     "**/.git/objects/**": true,
     "**/.git/subtree-cache/**": true,
-    // "**/node_modules/*/**": true,
+    "**/node_modules/*/**": true,
     "**/dist/*/*.js": true,
     "jest_?/**": true
   },
@@ -57,7 +57,7 @@
     "**/.gtm": true,
     "**/.DS_Store": true,
     "jest_?/**": true,
-    // "node_modules": true,
+    "node_modules": true,
     ".jestcache": true,
     ".eslintcache": true,
     "**/.sonarlint": true

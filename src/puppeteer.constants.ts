@@ -24,5 +24,5 @@ export const DEFAULT_CHROME_LAUNCH_OPTIONS: PuppeteerLaunchOptions = {
 
 export const DEFAULT_DEBUG_OPTIONS: DebugOptions = {
   debugMode: false,
-  browserURL: '127.0.0.1:9222'
+  browserWSEndpoint: '127.0.0.1:9222'
 }

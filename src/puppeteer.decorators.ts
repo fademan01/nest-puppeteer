@@ -3,6 +3,7 @@ import {
   getBrowserToken,
   getContextToken,
   getPageToken,
+  getSecondPageToken
 } from './puppeteer.util';
 
 /**
@@ -25,3 +26,10 @@ export const InjectContext = (instanceName?: string) =>
  */
 export const InjectPage = (instanceName?: string) =>
   Inject(getPageToken(instanceName));
+
+/**
+ * Inject the Puppeteer Page object associated with BrowserContext
+ * @param instanceName The unique name associated with the instance
+ */
+export const InjectSecondPage = (instanceName?: string) =>
+Inject(getSecondPageToken(instanceName));

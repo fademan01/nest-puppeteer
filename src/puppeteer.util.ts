@@ -29,3 +29,13 @@ export function getPageToken(
 ): string {
   return `${instanceName}Page`;
 }
+
+/**
+ * Get a token for the Puppeteer instance for the given Page name
+ * @param instanceName The unique name for the Puppeteer instance
+ */
+ export function getSecondPageToken(
+  instanceName: string = DEFAULT_PUPPETEER_INSTANCE_NAME,
+): string {
+  return `${instanceName}SecondPage`;
+}
