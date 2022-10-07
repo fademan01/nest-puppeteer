@@ -15,6 +15,11 @@ export class CrawlerController {
     return this.crawlerService.crawl(params.url);
   }
 
+  @Get('/google')
+  async getGoogleText() {
+   return await this.crawlerService.crawlGoogle();   
+  }
+
   @Get('/context')
   async contextType() {
     return { incognito: this.context.isIncognito() };
